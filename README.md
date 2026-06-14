@@ -42,7 +42,10 @@ graph TD
 FGSM is a single-step attack designed to be computationally fast rather than strictly optimal. It calculates the gradient of the loss function with respect to the input pixels, and then shifts every pixel by a small, fixed amount ($\epsilon$) in the direction that maximizes the loss.
 
 The adversarial image $x_{adv}$ is calculated as:
-$$ x_{adv} = x + \epsilon \cdot \text{sign}(\nabla_{x} J(\theta, x, y)) $$
+
+$$
+x_{adv} = x + \epsilon \cdot \text{sign}(\nabla_{x} J(\theta, x, y))
+$$
 
 Where:
 * $x$: The original clean image.
@@ -57,7 +60,10 @@ Where:
 PGD is a much more powerful, iterative extension of FGSM. Instead of taking one large step of size $\epsilon$, PGD takes multiple smaller steps of size $\alpha$. After each step, the perturbed image is **projected** (clipped) back into the valid $\epsilon$-neighborhood of the original image, ensuring the total perturbation never exceeds our visual budget.
 
 The adversarial image at iteration $t+1$ is calculated as:
-$$ x_{t+1} = \Pi_{x+\mathcal{S}} \left( x_t + \alpha \cdot \text{sign}(\nabla_{x_t} J(\theta, x_t, y)) \right) $$
+
+$$
+x_{t+1} = \Pi_{x+\mathcal{S}} \left( x_t + \alpha \cdot \text{sign}(\nabla_{x_t} J(\theta, x_t, y)) \right)
+$$
 
 Where:
 * $x_0 = x$: The initial clean image.
