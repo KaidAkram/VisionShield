@@ -37,8 +37,33 @@ graph TD
 ```
 
 ### The Mathematical Exploits
-1. **Fast Gradient Sign Method (FGSM)**: A single-step attack that calculates the gradient of the loss and shifts the input pixels one step in the direction that maximizes that loss.
-2. **Projected Gradient Descent (PGD)**: A more powerful iterative version of FGSM. It takes multiple smaller steps, clipping the perturbation back to the valid $\epsilon$-neighborhood at each iteration.
+
+#### 1. Fast Gradient Sign Method (FGSM)
+FGSM is a single-step attack designed to be computationally fast rather than strictly optimal. It calculates the gradient of the loss function with respect to the input pixels, and then shifts every pixel by a small, fixed amount ($\epsilon$) in the direction that maximizes the loss.
+
+The adversarial image $x_{adv}$ is calculated as:
+$$ x_{adv} = x + \epsilon \cdot \text{sign}(\nabla_{x} J(\theta, x, y)) $$
+
+Where:
+* $x$: The original clean image.
+* $y$: The true class label.
+* $\theta$: The model's frozen parameters.
+* $J(\theta, x, y)$: The loss function (e.g., Cross-Entropy Loss) used to train the network.
+* $\nabla_{x} J$: The gradient of the loss with respect to the input $x$.
+* $\epsilon$: The perturbation budget (maximum magnitude a pixel can change, keeping it invisible).
+* $\text{sign}(\cdot)$: A function that returns $+1$ for positive gradients and $-1$ for negative gradients, ensuring we step exactly $\epsilon$ in the steepest direction of error.
+
+#### 2. Projected Gradient Descent (PGD)
+PGD is a much more powerful, iterative extension of FGSM. Instead of taking one large step of size $\epsilon$, PGD takes multiple smaller steps of size $\alpha$. After each step, the perturbed image is **projected** (clipped) back into the valid $\epsilon$-neighborhood of the original image, ensuring the total perturbation never exceeds our visual budget.
+
+The adversarial image at iteration $t+1$ is calculated as:
+$$ x_{t+1} = \Pi_{x+\mathcal{S}} \left( x_t + \alpha \cdot \text{sign}(\nabla_{x_t} J(\theta, x_t, y)) \right) $$
+
+Where:
+* $x_0 = x$: The initial clean image.
+* $t$: The current iteration step.
+* $\alpha$: The small step size taken per iteration (where $\alpha < \epsilon$).
+* $\Pi_{x+\mathcal{S}}(\cdot)$: The projection operator that clips the values to remain within the allowed $L_\infty$ norm bound $\epsilon$ around the original image $x$, while simultaneously clamping the raw pixel limits strictly between $[0, 1]$.
 
 ---
 
