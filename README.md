@@ -89,6 +89,8 @@ Below is a visual overview of VisionShield AI in action, demonstrating how the m
 ![Defended FGSM Attack](screenshots/second.png)
 *By enabling the **Gaussian Smoothing** defense (Kernel Size: 5, Sigma: 1.00), the high-frequency adversarial noise is blurred out. The model successfully recovers the correct "Golden Retriever" classification (19.65%), stripping away the adversary's malicious gradient.*
 
+> **The Trade-off:** The confidence dropped significantly from the original 49.16% down to 19.65%. Why? Because Gaussian smoothing acts as a low-pass filter. While it blurs out the malicious noise, it also blurs out legitimate, fine-grained textures in the image (like the sharp edges of the dog's fur or eyes) that the CNN relies on to make confident predictions. You are actively observing the "Accuracy vs. Robustness" trade-off.
+
 ### 3. Mitigating an Iterative PGD Attack
 ![Defended PGD Attack](screenshots/third.png)
 *Here we upgrade the attack to **Projected Gradient Descent (PGD)**—a much stronger, iterative attack that pushes the wrong "miniature poodle" confidence up to a staggering 84.66%. Despite the stronger attack, our Gaussian Smoothing defense still successfully smooths out the adversarial artifacts and restores the true "Golden Retriever" classification.*
