@@ -74,3 +74,21 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 Upload an image or let the system generate a synthetic sample, tune your attack budgets in the sidebar, and evaluate how the defensive layers mitigate the exploits!
+
+---
+
+## 🖼️ Dashboard Overview & Testing
+
+Below is a visual overview of VisionShield AI in action, demonstrating how the model gets exploited and subsequently defended using our built-in Streamlit UI.
+
+### 1. The Undefended FGSM Attack
+![Undefended FGSM Attack](screenshots/first.png)
+*In this test, a clean image of a Golden Retriever is uploaded. We apply the Fast Gradient Sign Method (FGSM) with an Epsilon of 0.01. The perturbation is invisible to the human eye, but it successfully fools the ResNet-18 model into misclassifying the dog as a "miniature poodle" with 52.67% confidence.*
+
+### 2. Defending FGSM with Gaussian Smoothing
+![Defended FGSM Attack](screenshots/second.png)
+*By enabling the **Gaussian Smoothing** defense (Kernel Size: 5, Sigma: 1.00), the high-frequency adversarial noise is blurred out. The model successfully recovers the correct "Golden Retriever" classification (19.65%), stripping away the adversary's malicious gradient.*
+
+### 3. Mitigating an Iterative PGD Attack
+![Defended PGD Attack](screenshots/third.png)
+*Here we upgrade the attack to **Projected Gradient Descent (PGD)**—a much stronger, iterative attack that pushes the wrong "miniature poodle" confidence up to a staggering 84.66%. Despite the stronger attack, our Gaussian Smoothing defense still successfully smooths out the adversarial artifacts and restores the true "Golden Retriever" classification.*
