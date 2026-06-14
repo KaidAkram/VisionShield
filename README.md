@@ -23,17 +23,17 @@ The perturbation is constrained by an **Epsilon** ($\epsilon$) budget, meaning t
 
 ```mermaid
 graph TD
-    A[Clean Image (Jellyfish)] -->|Visually Identical| C{Human Observer}
-    C -->|Perceives| D[Jellyfish]
+    A["Clean Image (Jellyfish)"] -->|Visually Identical| C{"Human Observer"}
+    C -->|Perceives| D["Jellyfish"]
     
-    A -->|Calculated Gradient Addition| B[Adversarial Image (Epsilon bounded)]
+    A -->|Calculated Gradient Addition| B["Adversarial Image (Epsilon bounded)"]
     B -->|Visually Identical| C
     
-    A -->|Forward Pass| E[ResNet-18]
-    E -->|Confidence: 99%| F[Jellyfish]
+    A -->|Forward Pass| E["ResNet-18"]
+    E -->|"Confidence: 99%"| F["Jellyfish"]
     
-    B -->|Forward Pass| G[ResNet-18]
-    G -->|Confidence: 100%| H[Dishrag]
+    B -->|Forward Pass| G["ResNet-18"]
+    G -->|"Confidence: 100%"| H["Dishrag"]
 ```
 
 ### The Mathematical Exploits
